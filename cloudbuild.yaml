@@ -1,6 +1,7 @@
 steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'us-central1-docker.pkg.dev/cybernetic-pact-400417/princeton-100934567:$COMMIT_SHA', '.']
+  
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'us-central1-docker.pkg.dev/cybernetic-pact-400417/princeton-100934567:$COMMIT_SHA']
 
@@ -9,8 +10,10 @@ steps:
     args:
       - '-c'
       - |
-	gcloud run deploy YOUR_SERVICE_NAME \
-	  --image us-central1-docker.pkg.dev/cybernetic-pact-
+        gcloud run deploy YOUR_SERVICE_NAME \
+          --image us-central1-docker.pkg.dev/cybernetic-pact-400417/princeton-100934567:$COMMIT_SHA \
+          --platform managed \
+          --region us-central1
 
 options:
   defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
